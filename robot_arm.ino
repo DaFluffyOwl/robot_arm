@@ -4,13 +4,13 @@
 // Stops the code from self destruction ¯_(ツ)/¯.
 MPU6050 gyro(Wire);
 
-int AD0 = 7; // Connect to the AD0 pin on GY521.
+int AD0 = 2; // Connect to the AD0 pin on GY521.
 int angle = 0;
 
 void setup() {
 
 Wire.begin(); // Starts I2C communication hardware in Arduino to talk with the GY521 (MPU6050) using the I2C bus.
-setup_gyro();
+setup_gyro(2);
  
 pinMode(AD0, OUTPUT);
 digitalWrite(AD0, HIGH); // Sets address for the GY521 (HIGH -> 0x69, LOW -> 0x68). Each GY521 needs a different address.
@@ -25,9 +25,9 @@ void loop() {
 }
 
 
-void setup_gryo(int index){
+void setup_gyro(int index){
   gyro.begin(); // "Wakes up" the MPU6050 and sets both the gyroscope and accelerometer configurations.
-  gyro.calcOffests(); // Calculate offsets to remove them.
+  gyro.calcOffsets(); // Calculate offsets to remove them.
   pinMode(index, OUTPUT);
   if(index = 1){
     digitalWrite(index, LOW);
@@ -42,11 +42,11 @@ void setup_gryo(int index){
 void get_angles(int address, int Delay){
   gyro.setAddress(address); // Following code is sent only to the GY521 with address whatever
   gyro.update();
-  Serial.println("X: "); //Updates data
+  Serial.print("X: "); //Updates data
   Serial.print(gyro.getAngleX()); // Retrieves raw data from the MPU6050 and preforms calculations to get the proper angle measurment.
-  Serial.println("Y: ");
+  Serial.print("  Y: ");
   Serial.println(gyro.getAngleY());
-  Serial.println("Z: ");
-  Serial.print(gyro.getAngleZ());
+  /*Serial.println("Z: ");
+  Serial.print(gyro.getAngleZ());*/
   delay(Delay);
 }
