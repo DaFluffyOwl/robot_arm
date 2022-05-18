@@ -7,6 +7,7 @@ MPU6050 gyro(Wire);
 int AD0 = 2; // Connect to the AD0 pin on GY521.
 int angle = 0;
 
+float* coord_ptr;
 void setup() {
 
 Wire.begin(); // Starts I2C communication hardware in Arduino to talk with the GY521 (MPU6050) using the I2C bus.
@@ -20,8 +21,13 @@ Serial.begin(9600);
 }
 
 void loop() {
-  get_angles(0x69, 50);
-
+  coord_ptr = get_angles(0x69, 50);
+  Serial.print("X: "); //Updates data
+  Serial.print(*coord_ptr); // Retrieves raw data from the MPU6050 and preforms calculations to get the proper angle measurment.
+  Serial.print("  Y: ");
+  Serial.print(*(coord_ptr+1));
+  Serial.print("  Z: ");
+  Serial.println(*(coord_ptr+2));
 }
 
 
@@ -39,14 +45,13 @@ void setup_gyro(int index){
     Serial.print("Invalid adress");
   }
 }
-void get_angles(int address, int Delay){
+float* get_angles(int address, int Delay){
   gyro.setAddress(address); // Following code is sent only to the GY521 with address whatever
   gyro.update();
-  Serial.print("X: "); //Updates data
-  Serial.print(gyro.getAngleX()); // Retrieves raw data from the MPU6050 and preforms calculations to get the proper angle measurment.
-  Serial.print("  Y: ");
-  Serial.println(gyro.getAngleY());
-  /*Serial.println("Z: ");
-  Serial.print(gyro.getAngleZ());*/
+  static float coord[3];
+  coord[0] = gyro.getAngleX();
+  coord[1] = gyro.getAngleY();
+  coord[2] = gyro.getAngleZ();
   delay(Delay);
+  return coord;
 }
