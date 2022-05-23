@@ -14,23 +14,24 @@ float* coord_ptr;
 void setup() {
 
   Wire.begin(); // Starts I2C communication hardware in Arduino to talk with the GY521 (MPU6050) using the I2C bus.
-  setup_gyro(2);
+  setup_gyro(1);
 
-  pinMode(AD0, OUTPUT);
-  digitalWrite(AD0, HIGH); // Sets address for the GY521 (HIGH -> 0x69, LOW -> 0x68). Each GY521 needs a different address.
+  //pinMode(AD0, OUTPUT);
+  //digitalWrite(AD0, HIGH); // Sets address for the GY521 (HIGH -> 0x69, LOW -> 0x68). Each GY521 needs a different address.
   servoX.attach(servoX_pin);
   Serial.begin(9600);
 
 }
 
 void loop() {
-  coord_ptr = get_angles(0x69, 50);
+  coord_ptr = get_angles(0x68, 50);
   Serial.print("X: "); //Updates data
   Serial.print(*coord_ptr); // Retrieves raw data from the MPU6050 and preforms calculations to get the proper angle measurment.
   Serial.print("  Y: ");
   Serial.print(*(coord_ptr + 1));
   Serial.print("  Z: ");
   Serial.println(*(coord_ptr + 2));
+  servoX.write(*coord_ptr);
 }
 
 
@@ -38,10 +39,10 @@ void setup_gyro(int index) {
   gyro.begin(); // "Wakes up" the MPU6050 and sets both the gyroscope and accelerometer configurations.
   gyro.calcOffsets(); // Calculate offsets to remove them.
   pinMode(index, OUTPUT);
-  if (index = 1) {
-    digitalWrite(index, LOW);
+  if (index == 1) {
+    digitalWrite(3, LOW);
   }
-  else if (index = 2) {
+  else if (index == 2) {
     digitalWrite(index, HIGH);
   }
   else {
