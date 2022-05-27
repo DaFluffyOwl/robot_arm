@@ -1,5 +1,4 @@
-# robotic_arm_mimicer
-
+# robotic_arm
 Parts list:
   3+ Servos 
   2+ Gyros 
