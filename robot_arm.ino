@@ -5,8 +5,8 @@
 MPU6050 gyro1(Wire);
 MPU6050 gyro2(Wire);
 
-Servo servoX; int servoX_pin = 3;
-Servo servoY; int servoY_pin = 5;
+Servo servoX; int servoX_pin = 5;
+Servo servoY; int servoY_pin = 3;
 
 Servo servoZ; int servoZ_pin = 6;
 
@@ -37,7 +37,15 @@ void setup() {
 
   gyro2.begin();
   gyro2.calcOffsets();
-  
+
+  servoX.write(180);
+  servoY.write(180);
+  servoZ.write(180);
+  delay(1000);
+  servoX.write(0);
+  servoY.write(0);
+  servoZ.write(0);
+  delay(1000);
   Serial.begin(9600);
   
 }
@@ -49,7 +57,7 @@ void loop() {
   coord_ptr2 = AnglesGyro2(20); 
 
   servoX.write(*coord_ptr);
-  servoY.write(*(coord_ptr+1));
+  servoY.write(180 - *(coord_ptr2));
   servoZ.write(*(coord_ptr2));
 }
 
