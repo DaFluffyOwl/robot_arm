@@ -28,24 +28,25 @@ void setup() {
   digitalWrite(Gyro1_pin, LOW);
 
   gyro1.setAddress(0x68);
-  gyro2.setAddress(0x69);
 
-  Wire.begin();
-  
   gyro1.begin();
   gyro1.calcOffsets();
+
+  gyro2.setAddress(0x69);
 
   gyro2.begin();
   gyro2.calcOffsets();
 
-  servoX.write(180);
+  Wire.begin();
+  
+  /*servoX.write(180);
   servoY.write(180);
   servoZ.write(180);
   delay(1000);
   servoX.write(0);
   servoY.write(0);
   servoZ.write(0);
-  delay(1000);
+  delay(1000);*/
   Serial.begin(9600);
   
 }
@@ -58,7 +59,8 @@ void loop() {
 
   servoX.write(*coord_ptr);
   servoY.write(180 - *(coord_ptr2));
-  servoZ.write(*(coord_ptr2));
+  servoZ.write(*(coord_ptr2+1));
+  Serial.println(*coord_ptr2);
 }
 
 float* AnglesGyro1(int Delay) {
