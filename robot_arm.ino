@@ -57,10 +57,10 @@ void loop() {
 
   coord_ptr2 = AnglesGyro2(20); 
 
-  servoX.write(*coord_ptr);
-  servoY.write(180 - *(coord_ptr2));
-  servoZ.write(*(coord_ptr2+1));
-  Serial.println(*coord_ptr2);
+  servoY.write(*(coord_ptr2));
+  servoX.write(*(coord_ptr2+2));
+  servoZ.write(*(coord_ptr));
+  //Serial.println(*coord_ptr);
 }
 
 float* AnglesGyro1(int Delay) {
