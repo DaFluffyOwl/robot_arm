@@ -7,7 +7,7 @@ MPU6050 gyro2(Wire);
 
 Servo servoX; int servoX_pin = 5;
 Servo servoY; int servoY_pin = 3;
-
+Servo servoY2; int servoY2_pin = 9;
 Servo servoZ; int servoZ_pin = 6;
 
 int Gyro2_pin = 2;
@@ -20,6 +20,7 @@ void setup() {
 
   servoX.attach(servoX_pin);
   servoY.attach(servoY_pin);
+  servoY2.attach(servoY2_pin);
   servoZ.attach(servoZ_pin);
 
   pinMode(Gyro2_pin, OUTPUT);
@@ -58,6 +59,7 @@ void loop() {
   coord_ptr2 = AnglesGyro2(20); 
 
   servoY.write(*(coord_ptr2));
+  servoY2.write(180 - *(coord_ptr2));
   servoX.write(*(coord_ptr2+2));
   servoZ.write(*(coord_ptr));
   //Serial.println(*coord_ptr);
