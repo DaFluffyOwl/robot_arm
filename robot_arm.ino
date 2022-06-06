@@ -2,7 +2,7 @@
 #include <Wire.h>
 #include <Servo.h>
 
-MPU6050 gyro1(Wire); // Annotation
+MPU6050 gyro1(Wire);
 MPU6050 gyro2(Wire);
 
 Servo servoX; int servoX_pin = 5;
@@ -48,6 +48,7 @@ void setup() {
   servoY.write(0);
   servoZ.write(0);
   delay(1000);*/
+
   Serial.begin(9600);
   
 }
@@ -55,11 +56,17 @@ void setup() {
 void loop() {
   
   coord_ptr = AnglesGyro1(20);
-
   coord_ptr2 = AnglesGyro2(20); 
+
+  servoY.attach(servoY_pin);
+  servoY2.attach(servoY2_pin);
 
   servoY.write(*(coord_ptr2));
   servoY2.write(180 - *(coord_ptr2));
+
+  servoY.detach();
+  servoY2.detach();
+
   servoX.write(*(coord_ptr2+2));
   servoZ.write(*(coord_ptr));
   //Serial.println(*coord_ptr);
