@@ -2,7 +2,7 @@
 #include <Wire.h>
 #include <Servo.h>
 
-MPU6050 gyro1(Wire);
+MPU6050 gyro1(Wire); // Annotation
 MPU6050 gyro2(Wire);
 
 Servo servoX; int servoX_pin = 5;
