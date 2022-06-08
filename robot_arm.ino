@@ -31,23 +31,15 @@ void setup() {
   gyro1.setAddress(0x68);
 
   gyro1.begin();
-  gyro1.calcOffsets();
+  gyro1.calcOffsets(0,0);
 
   gyro2.setAddress(0x69);
 
   gyro2.begin();
-  gyro2.calcOffsets();
+  gyro2.calcOffsets(0,0);
 
   Wire.begin();
   
-  /*servoX.write(180);
-  servoY.write(180);
-  servoZ.write(180);
-  delay(1000);
-  servoX.write(0);
-  servoY.write(0);
-  servoZ.write(0);
-  delay(1000);*/
   Serial.begin(9600);
   
 }
@@ -55,14 +47,14 @@ void setup() {
 void loop() {
   
   coord_ptr = AnglesGyro1(20);
-
   coord_ptr2 = AnglesGyro2(20); 
 
   servoY.write(*(coord_ptr2));
   servoY2.write(180 - *(coord_ptr2));
+
   servoX.write(*(coord_ptr2+2));
   servoZ.write(*(coord_ptr));
-  //Serial.println(*coord_ptr);
+  Serial.println(*coord_ptr);
 }
 
 float* AnglesGyro1(int Delay) {
