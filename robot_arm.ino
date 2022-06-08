@@ -10,7 +10,7 @@ Servo servoY; int servoY_pin = 3;
 Servo servoY2; int servoY2_pin = 9;
 Servo servoZ; int servoZ_pin = 6;
 
-int Gyro2_pin = 2;
+int Gyro2_pin = 11;
 int Gyro1_pin = 4;
 
 float* coord_ptr;
@@ -23,9 +23,7 @@ void setup() {
   servoY2.attach(servoY2_pin);
   servoZ.attach(servoZ_pin);
 
-  pinMode(Gyro2_pin, OUTPUT);
   pinMode(Gyro1_pin, OUTPUT);
-  digitalWrite(Gyro2_pin, HIGH);
   digitalWrite(Gyro1_pin, LOW);
 
   gyro1.setAddress(0x68);
@@ -33,6 +31,9 @@ void setup() {
   gyro1.begin();
   gyro1.calcOffsets(0,0);
 
+  pinMode(Gyro2_pin, OUTPUT);
+  digitalWrite(Gyro2_pin, HIGH);
+  
   gyro2.setAddress(0x69);
 
   gyro2.begin();
@@ -54,7 +55,7 @@ void loop() {
 
   servoX.write(*(coord_ptr2+2));
   servoZ.write(*(coord_ptr));
-  Serial.println(*coord_ptr);
+  Serial.println(*coord_ptr2);
 }
 
 float* AnglesGyro1(int Delay) {
