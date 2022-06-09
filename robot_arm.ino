@@ -10,6 +10,9 @@ Servo servoY; int servoY_pin = 3;
 Servo servoY2; int servoY2_pin = 9;
 Servo servoZ; int servoZ_pin = 6;
 
+int MAX_Y = 170;
+int MIN_Y = 35;
+
 int Gyro2_pin = 11;
 int Gyro1_pin = 4;
 
@@ -48,13 +51,23 @@ void loop() {
 
   coord_ptr = AnglesGyro1(20);
   coord_ptr2 = AnglesGyro2(20);
-
-  servoY.write(*(coord_ptr2));
-  servoY2.write(180 - * (coord_ptr2));
-
+  
+  if(*coord_ptr2 > MAX_Y){
+    servoY.write(MAX_Y);
+    servoY2.write(180 - MAX_Y);
+  }
+  else if(*coord_ptr2 < MIN_Y){
+    servoY.write(MIN_Y);
+    servoY2.write(180 - MIN_Y);
+  }
+  else{
+    servoY.write(*(coord_ptr2));
+    servoY2.write(180 - * (coord_ptr2));
+  }
+    
   servoX.write(*(coord_ptr2 + 2));
   servoZ.write(*(coord_ptr));
-  Serial.println(*coord_ptr2);
+  Serial.println(*(coord_ptr2 + 2) );
 }
 
 float* AnglesGyro1(int Delay) {
