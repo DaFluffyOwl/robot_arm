@@ -1,4 +1,4 @@
-r#include <MPU6050_light.h>
+#include <MPU6050_light.h>
 #include <Wire.h>
 #include <Servo.h>
 
@@ -40,7 +40,6 @@ void setup() {
   gyro2.calcOffsets(0, 0);
 
   Wire.begin();
-  ex
   Serial.begin(9600);
 
 }
