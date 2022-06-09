@@ -1,4 +1,4 @@
-#include <MPU6050_light.h>
+r#include <MPU6050_light.h>
 #include <Wire.h>
 #include <Servo.h>
 
@@ -29,31 +29,31 @@ void setup() {
   gyro1.setAddress(0x68);
 
   gyro1.begin();
-  gyro1.calcOffsets(0,0);
+  gyro1.calcOffsets(0, 0);
 
   pinMode(Gyro2_pin, OUTPUT);
   digitalWrite(Gyro2_pin, HIGH);
-  
+
   gyro2.setAddress(0x69);
 
   gyro2.begin();
-  gyro2.calcOffsets(0,0);
+  gyro2.calcOffsets(0, 0);
 
   Wire.begin();
-  
+  ex
   Serial.begin(9600);
-  
+
 }
 
 void loop() {
-  
+
   coord_ptr = AnglesGyro1(20);
-  coord_ptr2 = AnglesGyro2(20); 
+  coord_ptr2 = AnglesGyro2(20);
 
   servoY.write(*(coord_ptr2));
-  servoY2.write(180 - *(coord_ptr2));
+  servoY2.write(180 - * (coord_ptr2));
 
-  servoX.write(*(coord_ptr2+2));
+  servoX.write(*(coord_ptr2 + 2));
   servoZ.write(*(coord_ptr));
   Serial.println(*coord_ptr2);
 }
