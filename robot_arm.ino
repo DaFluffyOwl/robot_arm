@@ -14,8 +14,9 @@ int MAX_Y = 170;
 int MIN_Y = 35;
 int mappedVal, val;
 
-int buffer = 0;
-int buffer2 = 0;
+int bufferY = 0;
+int bufferX = 0;
+int bufferZ = 0;
 
 int Gyro2_pin = 11;
 int Gyro1_pin = 4;
@@ -56,7 +57,7 @@ void loop() {
   coord_ptr = AnglesGyro1(10);
   coord_ptr2 = AnglesGyro2(10);
   
-  if(buffer - *coord_ptr2 < 200){
+  if(bufferY - *coord_ptr2 < 200){
     if(*coord_ptr2 > MAX_Y){
       servoY.write(MAX_Y);
       servoY2.write(180 - MAX_Y);
@@ -69,24 +70,26 @@ void loop() {
       servoY.write(*(coord_ptr2));
       servoY2.write(180 - * (coord_ptr2));
     }
-    buffer = *coord_ptr2;
+    bufferY = *coord_ptr2;
   }
   else{
-    servoY.write(buffer);
-    servoY2.write(180 - buffer);
+    servoY.write(bufferY);
+    servoY2.write(180 - bufferY);
   }
 
-  if(buffer2 - *(coord_ptr2 + 2) < 200){
+  if(bufferX - *(coord_ptr2 + 2) < 200){
     servoX.write(*(coord_ptr2 + 2));
-    buffer2 = *(coord_ptr2 + 2);
+    bufferX = *(coord_ptr2 + 2);
   } else {
-    servoX.write(buffer2);
+    servoX.write(bufferX);
   }
 
-  
-      
-    //servoX.write(*(coord_ptr2 + 2));
+  if(bufferZ - *(coord_ptr) < 200){
     servoZ.write(*(coord_ptr));
+    bufferZ = *(coord_ptr);
+  } else {
+    servoZ.write(bufferZ);
+  }
 
 }
 
