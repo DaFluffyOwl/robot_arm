@@ -24,6 +24,8 @@ int Gyro1_pin = 4;
 float* coord_ptr;
 float* coord_ptr2;
 
+int X, Y, Z = 0;
+
 void setup() {
 
   servoX.attach(servoX_pin);
@@ -56,33 +58,38 @@ void loop() {
 
   coord_ptr = AnglesGyro1(10);
   coord_ptr2 = AnglesGyro2(10);
+  Y = *coord_ptr2;
+  X = *(coord_ptr2 + 2);
+  Z = *coord_ptr;
 
-  if(bufferY - *coord_ptr2 < 200){
-    if(*coord_ptr2 > MAX_Y){
+  //Y Axis movement
+  if(bufferY - Y < 200){
+    if(Y > MAX_Y){
       servoY.write(MAX_Y + y_const);
       servoY2.write(180 - MAX_Y - y_const);
     }
-    else if(*coord_ptr2 < MIN_Y){
+    else if(Y < MIN_Y){
       servoY.write(MIN_Y + y_const);
       servoY2.write(180 - MIN_Y - y_const);
     }
     else{
-      servoY.write(*(coord_ptr2) + y_const);
-      servoY2.write(180 - *(coord_ptr2) - y_const);
+      servoY.write(Y + y_const);
+      servoY2.write(180 - Y - y_const);
     }
-    bufferY = *coord_ptr2;
+    bufferY = Y;
   }
   else{
     servoY.write(bufferY + y_const);
     servoY2.write(180 - bufferY - y_const);
   }
 
+  //X Axis movement
   float mapped_X = 0;
-  if(*(coord_ptr2 + 2) < 0){
-    mapped_X = -1 * *(coord_ptr2 + 2);
+  if(X < 0){
+    mapped_X = -1 * X;
   }
   else{
-    mapped_X = *(coord_ptr2 + 2);
+    mapped_X = X;
   }
   if(bufferX - mapped_X < 200){
     servoX.write(mapped_X);
@@ -93,9 +100,10 @@ void loop() {
     Serial.println(bufferX);
   }
 
-  if(bufferZ - *(coord_ptr) < 200){
-    servoZ.write(*(coord_ptr));
-    bufferZ = *(coord_ptr);
+  //Z Axis movement
+  if(bufferZ - Z < 200){
+    servoZ.write(Z);
+    bufferZ = Z;
   } else {
     servoZ.write(bufferZ);
   }
