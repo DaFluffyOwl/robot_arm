@@ -10,8 +10,11 @@ Servo servoY; int servoY_pin = 3;
 Servo servoY2; int servoY2_pin = 9;
 Servo servoZ; int servoZ_pin = 6;
 
+// Sets limits on the range
 int MAX_Y = 170;
 int MIN_Y = 35;
+
+// Used to set an external offset
 const int y_const = 30;
 
 int bufferY = 0;
@@ -58,33 +61,39 @@ void loop() {
 
   coord_ptr = AnglesGyro1(10);
   coord_ptr2 = AnglesGyro2(10);
-  Y = *coord_ptr2;
-  X = *(coord_ptr2 + 2);
-  Z = *coord_ptr;
+  Y = *coord_ptr2;        // Pitch
+  X = *(coord_ptr2 + 2);  // Yaw
+  Z = *coord_ptr;         // Roll 
 
-  //Y Axis movement
+  /********Y Axis movement********/
   if(bufferY - Y < 200){
+    // If the difference between the previous and current angle is less than 200:
     if(Y > MAX_Y){
+      // Exceeds max angle:
       servoY.write(MAX_Y + y_const);
       servoY2.write(180 - MAX_Y - y_const);
     }
     else if(Y < MIN_Y){
+      // Exceeds minimum angle:
       servoY.write(MIN_Y + y_const);
       servoY2.write(180 - MIN_Y - y_const);
     }
     else{
+      // Angle is in range:
       servoY.write(Y + y_const);
       servoY2.write(180 - Y - y_const);
     }
     bufferY = Y;
   }
   else{
+    // If the difference between the previous and current angle is more than 200:
     servoY.write(bufferY + y_const);
     servoY2.write(180 - bufferY - y_const);
   }
 
-  //X Axis movement
+  /********X Axis movement********/
   float mapped_X = 0;
+  // Takes the absolute value of X and stores it in mapped_X.
   if(X < 0){
     mapped_X = -1 * X;
   }
@@ -100,7 +109,7 @@ void loop() {
     Serial.println(bufferX);
   }
 
-  //Z Axis movement
+  /********Z Axis movement********/
   if(bufferZ - Z < 200){
     servoZ.write(Z);
     bufferZ = Z;
@@ -109,6 +118,8 @@ void loop() {
   }
 
 }
+
+// Obtains GY521 measurments and stores them into an array
 
 float* AnglesGyro1(int Delay) {
   gyro1.update();
