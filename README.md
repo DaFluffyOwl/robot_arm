@@ -1,8 +1,2 @@
 # robotic_arm
-Parts list:
-  3+ Servos 
-  2+ Gyros 
-  Lots of wires 
-  An arduino 
-  A base of something 
-  3D Printer 
+A simple implementation of 2 gyros and 3 servo motors to move a small robotic arm.
